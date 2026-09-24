@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Estimate when your project will ship from a few practical inputs." />
+    <title>Shipclock — Project timeline estimator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Shipclock home">
+          <span class="brand-mark" aria-hidden="true">↗</span>
+          <span>shipclock</span>
+        </a>
+        <div class="topbar-note"><span class="status-dot"></span> Estimator v0.1</div>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">Project timeline estimator</p>
+        <h1>Know when it can <em>ship.</em></h1>
+        <p class="intro-copy">Turn a rough project shape into a useful finish date. No project plan required.</p>
+      </section>
+
+      <section class="workspace" aria-label="Project timeline estimator">
+        <form id="estimate-form" class="input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">01 — Shape the work</p>
+              <h2>Tell us about the project</h2>
+            </div>
+            <span class="step-count">4 inputs</span>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Project name <span class="optional">optional</span></span>
+            <input id="project-name" type="text" placeholder="e.g. Customer portal" autocomplete="off" />
+          </label>
+
+          <fieldset class="field-group">
+            <legend class="field-label">How much work is there?</legend>
+            <div class="choice-grid">
+              <label class="choice-card">
+                <input type="radio" name="scope" value="small" />
+                <span class="choice-content"><strong>Small</strong><small>A focused feature or fix</small></span>
+                <span class="choice-estimate">1–2 wks</span>
+              </label>
+              <label class="choice-card is-selected">
+                <input type="radio" name="scope" value="medium" checked />
+                <span class="choice-content"><strong>Medium</strong><small>A meaningful product slice</small></span>
+                <span class="choice-estimate">3–6 wks</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="scope" value="large" />
+                <span class="choice-content"><strong>Large</strong><small>Several connected workstreams</small></span>
+                <span class="choice-estimate">2–4 mos</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group">
+            <legend class="field-label">Who is building it?</legend>
+            <div class="choice-grid compact">
+              <label class="choice-card">
+                <input type="radio" name="team" value="solo" />
+                <span class="choice-content"><strong>Solo</strong><small>One person, part-time or full-time</small></span>
+              </label>
+              <label class="choice-card is-selected">
+                <input type="radio" name="team" value="small" checked />
+                <span class="choice-content"><strong>Small team</strong><small>2–4 people collaborating</small></span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="team" value="larger" />
+                <span class="choice-content"><strong>Larger team</strong><small>5+ people or multiple teams</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label">Start date</span>
+              <input id="start-date" type="date" />
+            </label>
+            <label class="field">
+              <span class="field-label">Risk &amp; unknowns</span>
+              <select id="risk">
+                <option value="low">Low — familiar territory</option>
+                <option value="medium" selected>Medium — a few unknowns</option>
+                <option value="high">High — lots to discover</option>
+              </select>
+            </label>
+          </div>
+
+          <button class="primary-button" type="submit">
+            <span>Calculate my timeline</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="form-note"><span aria-hidden="true">✦</span> You’ll get a likely range, not false precision.</p>
+        </form>
+
+        <aside class="result-panel" aria-live="polite">
+          <div class="result-topline">
+            <p class="section-kicker">02 — Your forecast</p>
+            <span class="confidence"><span class="confidence-dot"></span><span id="confidence-label">Medium confidence</span></span>
+          </div>
+          <div class="result-main">
+            <p class="result-label">Likely ship date</p>
+            <h2 id="ship-date">November 06, 2026</h2>
+            <p class="result-range">A realistic window of <strong id="range-text">October 23 – November 20</strong></p>
+          </div>
+          <div class="timeline">
+            <div class="timeline-line"><span class="timeline-progress"></span><span class="timeline-marker marker-start"></span><span class="timeline-marker marker-end"></span></div>
+            <div class="timeline-labels"><span id="start-label">Today</span><span id="duration-label">5 weeks</span></div>
+          </div>
+          <div class="result-details">
+            <div class="detail-row"><span>Estimated effort</span><strong id="effort-label">5 weeks</strong></div>
+            <div class="detail-row"><span>Built-in buffer</span><strong id="buffer-label">20%</strong></div>
+            <div class="detail-row"><span>Planning note</span><strong id="note-label">Keep a discovery week open</strong></div>
+          </div>
+          <button id="copy-button" class="secondary-button" type="button"><span>Copy forecast</span><span aria-hidden="true">⌘ C</span></button>
+          <p id="copy-status" class="copy-status" role="status"></p>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>Made for the space between “let’s do it” and “it shipped.”</span>
+        <span class="footer-mono">SHIP / 001</span>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
