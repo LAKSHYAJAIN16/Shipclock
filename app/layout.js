@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Shipclock — Project timeline estimator",
-  description: "Estimate when your project can ship with deterministic logic and an AI planning review."
+  title: "Shipclock — Will it ship?",
+  description: "Forecast when (and whether) your side project ships: an LLM ensemble plans the work, a Monte Carlo simulation does the odds."
 };
 
 export default function RootLayout({ children }) {
